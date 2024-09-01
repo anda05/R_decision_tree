@@ -9,10 +9,10 @@ entropy_all <- function(d) {
     f <- table(d[[y]])
     H <- res_entropy[[x]]
     w <- table(d[[x]]) / nrow(d)
-    wH <- sum(w * H, na.rm = TRUE)
-    oH <- -sum((f / nrow(d)) * log2(f / nrow(d)), na.rm = TRUE)
-    e[which(names(res_entropy) == x)] <- oH - wH
-    results[[x]] <- list(entropy = wH, info_gain = e[which(names(res_entropy) == x)])
+    xx <- sum(w * H, na.rm = TRUE)
+    r <- -sum((f / nrow(d)) * log2(f / nrow(d)), na.rm = TRUE)
+    e[which(names(res_entropy) == x)] <- r - xx
+    results[[x]] <- list(weighted_entropy = xx, overall_entropy=r, info_gain = e[which(names(res_entropy) == x)])
   }
   max_e <- e[1]
   for (i in e) {
@@ -40,10 +40,10 @@ gini_all <- function(df) {
     f <- table(df[[y]])
     G <- res_gini[[x]]
     w <- table(df[[x]]) / nrow(df)
-    wG <- sum(w * G, na.rm = TRUE)
-    oG <- 1 - sum((f / nrow(df))^2)
-    e[which(names(res_gini) == x)] <- oG - wG
-    results[[x]] <- list(gini_index = wG, info_gain = e[which(names(res_gini) == x)])
+    xx <- sum(w * G, na.rm = TRUE)
+    r <- 1 - sum((f / nrow(df))^2)
+    e[which(names(res_gini) == x)] <- r - xx
+    results[[x]] <- list(gini_index = xx, overall_gini=r, info_gain = e[which(names(res_gini) == x)])
   }
   max_e <- e[1]
   for (i in e) {
